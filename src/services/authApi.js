@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://connections-api.herokuapp.com/users';
+axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 export const token = {
   set: token => {
@@ -12,23 +12,20 @@ export const token = {
 };
 
 export const register = async userData => {
-  const { data } = await axios.post('/signup', userData);
-  token.set(data.token);
+  const { data } = await axios.post('/users/signup', userData);
   return data;
 };
 
 export const login = async userData => {
-  const { data } = await axios.post('/login', userData);
-  token.set(data.token);
+  const { data } = await axios.post('/users/login', userData);
   return data;
 };
 
 export const logout = async () => {
-  await axios.post('/logout');
-  token.unset();
+  await axios.post('/users/logout');
 };
 
 export const refresh = async () => {
-  const res = await axios.get('/current');
+  const res = await axios.get('/users/current');
   return res;
 };
