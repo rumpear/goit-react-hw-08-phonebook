@@ -21,14 +21,28 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />}>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="registration" element={<RegisterPage />} />
-      </Route>
-      <Route path="/contacts" element={<ContactsPage />} />
-      <Route path="*" element={<h1>Not found</h1>} />
-    </Routes>
+    <>
+      {' '}
+      <Routes>
+        <Route path="/" element={<HomePage />}>
+          <Route path="login" element={<LoginPage />} />
+          <Route path="registration" element={<RegisterPage />} />
+        </Route>
+        <Route path="/contacts" element={<ContactsPage />} />
+        <Route path="*" element={<h1>Not found</h1>} />
+      </Routes>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
     // <Section>
     //   <Wrapper>
     //     <TitlePhonebook>Phonebook</TitlePhonebook>
@@ -38,17 +52,17 @@ export const App = () => {
     //     <ContactsList />
     //     <RegisterPage />
     //   </Wrapper>
-    //   <ToastContainer
-    //     position="top-center"
-    //     autoClose={5000}
-    //     hideProgressBar={false}
-    //     newestOnTop={false}
-    //     closeOnClick
-    //     rtl={false}
-    //     pauseOnFocusLoss
-    //     draggable
-    //     pauseOnHover
-    //   />
+    // <ToastContainer
+    //   position="top-center"
+    //   autoClose={5000}
+    //   hideProgressBar={false}
+    //   newestOnTop={false}
+    //   closeOnClick
+    //   rtl={false}
+    //   pauseOnFocusLoss
+    //   draggable
+    //   pauseOnHover
+    // />
     // </Section>
   );
 };

@@ -11,7 +11,7 @@ import {
   TitlePhonebook,
   TitleContacts,
 } from '../components/App.styled';
-import { UserMenu } from '../components/AppBar/UserMenu/';
+// import { UserMenu } from '../components/AppBar/UserMenu/';
 
 export const ContactsPage = () => {
   return (

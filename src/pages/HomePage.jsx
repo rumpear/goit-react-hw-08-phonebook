@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 export const HomePage = () => {
   const isLoggedIn = useSelector(getIsLoggedIn);
-
+  console.log(isLoggedIn, 'isLoggedIn');
   return (
     <Section>
       <h1>Hello</h1>

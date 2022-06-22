@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { getIsLoggedIn } from '../redux/auth/authSelectors';
 import { loginUser } from '../redux/auth/authOperations';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -23,7 +25,10 @@ const loginSchema = yup.object().shape({
 export const LoginPage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedIn);
+  const error = useSelector(state => state.auth.error);
   const navigate = useNavigate();
+  // const [loading, setLoading] = useState(false);
+  const isLoading = useSelector(state => state.auth.isLoading);
 
   const {
     register,
@@ -35,13 +40,18 @@ export const LoginPage = () => {
   });
 
   const onSubmit = async data => {
+    // setLoading(true);
     dispatch(loginUser(data));
     reset();
-
-    if (isLoggedIn) {
-      navigate('/contacts');
-    }
   };
+
+  // if (isLoggedIn) {
+  //   navigate('/contacts');
+  // }
+
+  if (error) {
+    toast('You entered the wrong password or email');
+  }
 
   return (
     <>
@@ -59,7 +69,7 @@ export const LoginPage = () => {
 
         <br></br>
 
-        <button type="submit">Login</button>
+        <button type="submit">{isLoading ? 'Loading' : 'Login'}</button>
       </form>
     </>
   );
