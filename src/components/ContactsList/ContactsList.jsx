@@ -25,25 +25,13 @@ export const ContactsList = () => {
     (async function () {
       try {
         await dispatch(fetchContacts()).unwrap();
-        setIsLoading(false);
       } catch (error) {
         toast('Something went wrong. Please reload the page');
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, [dispatch]);
-
-  //* alternative
-  // useEffect(() => {
-  //   dispatch(fetchContacts());
-  //   setIsLoading(false);
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (error && isLoading) {
-  //     toast('Something went wrong. Please reload the page');
-  //     setIsLoading(false);
-  //   }
-  // }, [error, isLoading]);
 
   const filteredContacts = contacts.filter(({ name }) => {
     return name.toLowerCase().includes(filterValue.toLowerCase());
@@ -55,8 +43,8 @@ export const ContactsList = () => {
     <div>
       {filteredContacts.length ? (
         <List>
-          {filteredContacts.map(({ id, name, phone }) => (
-            <ContactsItem key={id} id={id} name={name} number={phone} />
+          {filteredContacts.map(({ id, name, number }) => (
+            <ContactsItem key={id} id={id} name={name} number={number} />
           ))}
         </List>
       ) : (

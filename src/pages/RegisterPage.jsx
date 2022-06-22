@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { registerUser } from '../redux/auth/authOperations';
 import { useSelector } from 'react-redux';
 import { getIsLoggedIn } from '../redux/auth/authSelectors';
-import { useNavigate } from 'react-router-dom';
 
 const passwordRegex = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
 
@@ -37,7 +36,6 @@ const registrationSchema = yup.object().shape({
 export const RegisterPage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedIn);
-  const navigate = useNavigate();
 
   const {
     register,
@@ -47,15 +45,11 @@ export const RegisterPage = () => {
   } = useForm({
     resolver: yupResolver(registrationSchema),
   });
+
   const onSubmit = async data => {
     const { name, email, password } = data;
-    // console.log({ name, email, password });
     dispatch(registerUser({ name, email, password }));
     reset();
-
-    if (isLoggedIn) {
-      navigate('/contacts');
-    }
   };
 
   return (

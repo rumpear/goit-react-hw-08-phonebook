@@ -35,6 +35,8 @@ export const ContactsForm = () => {
   const error = useSelector(getErrorValue);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  console.log('isLoading', isLoading);
+  console.log('error', error);
 
   const checkDuplicateName = nameToAdd => {
     return contacts.find(
@@ -62,22 +64,24 @@ export const ContactsForm = () => {
 
   const createContact = async (name, number) => {
     const contact = {
-      id: nanoid(),
+      // id: nanoid(),
       name,
       number,
     };
-
+    console.log(contact);
     setIsLoading(true);
     try {
       await dispatch(addContact(contact)).unwrap();
     } catch (error) {
       toast('Something went wrong. Please reload the page');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [contacts]);
+  // useEffect(() => {
+  //   setIsLoading(false);
+  // }, [contacts]);
 
   return (
     <>
@@ -107,7 +111,8 @@ export const ContactsForm = () => {
             onChange={setPhone}
             required={'required'}
           />
-          <Button type="submit" disabled={error || isLoading}>
+          {/* <Button type="submit" disabled={error || isLoading}> */}
+          <Button type="submit" disabled={isLoading}>
             {isLoading ? (
               <>
                 <ClipLoader

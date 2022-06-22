@@ -1,4 +1,3 @@
-// import { NavLink, Outlet } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -6,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getIsLoggedIn } from '../redux/auth/authSelectors';
 import { loginUser } from '../redux/auth/authOperations';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
@@ -26,7 +24,6 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedIn);
   const error = useSelector(state => state.auth.error);
-  const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
   const isLoading = useSelector(state => state.auth.isLoading);
 
@@ -44,10 +41,6 @@ export const LoginPage = () => {
     dispatch(loginUser(data));
     reset();
   };
-
-  // if (isLoggedIn) {
-  //   navigate('/contacts');
-  // }
 
   if (error) {
     toast('You entered the wrong password or email');
