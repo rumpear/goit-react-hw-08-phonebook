@@ -12,6 +12,7 @@ export const registerUser = createAsyncThunk(
   async userData => {
     try {
       const res = await register(userData);
+      console.log('res.token', res.token);
       token.set(res.token);
       return res;
     } catch (error) {
@@ -26,6 +27,7 @@ export const loginUser = createAsyncThunk(
     try {
       const res = await login(userData);
       token.set(res.token);
+      console.log('res.token', res.token);
       return res;
     } catch (error) {
       // console.warn(error.message);
@@ -46,15 +48,16 @@ export const logoutUser = createAsyncThunk('auth/logout', async () => {
 export const getCurrentUser = createAsyncThunk(
   'auth/refresh',
   async (_, { rejectWithValue, getState }) => {
-    try {
-      const state = getState();
-      const persistedToken = state.auth.token;
-      console.log(!persistedToken, '!persistedToken');
-      if (!persistedToken) {
-        return rejectWithValue();
-      }
-      token.set(persistedToken);
+    const state = getState();
+    const persistedToken = state.auth.token;
 
+    if (persistedToken === null) {
+      return rejectWithValue();
+    }
+    token.set(persistedToken);
+    console.log('persistedToken', persistedToken);
+
+    try {
       const { data } = await refresh();
       return data;
     } catch (error) {

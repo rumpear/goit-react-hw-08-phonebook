@@ -9,7 +9,6 @@ import {
   REGISTER,
 } from 'redux-persist';
 import { persistedAuthReducer } from './auth/authSlice';
-// import { authSlice } from './auth/authSlice';
 import { contactsAsyncSlice } from './contacts/contactsAsyncSlice';
 
 export const store = configureStore({

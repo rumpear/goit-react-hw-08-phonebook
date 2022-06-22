@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-// import { token } from '../../services/authApi';
 import {
   createContact,
   deleteContact,
@@ -11,8 +10,6 @@ export const fetchContacts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await getContacts();
-      // console.log(res.token, 'fetchContacts');
-      // token.set(res.token);
       return res;
     } catch (error) {
       console.error(error);
@@ -26,8 +23,6 @@ export const addContact = createAsyncThunk(
   async (value, { rejectWithValue }) => {
     try {
       const res = await createContact(value);
-      // console.log(res.token, 'addContact');
-      // token.set(res.token);
       return res;
     } catch (error) {
       console.error(error);
@@ -41,8 +36,6 @@ export const removeContact = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await deleteContact(id);
-      // console.log(res.token, 'deleteContact');
-      // token.set(res.token);
       return res;
     } catch (error) {
       console.error(error);
