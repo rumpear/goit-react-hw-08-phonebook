@@ -36,18 +36,11 @@ export const contactsAsyncSlice = createSlice({
     [addContact.rejected]: (state, { payload }) => {
       return { ...state, error: payload, isLoading: false };
     },
-    [removeContact.fulfilled]: (state, payload) => {
-      console.log(payload, 'payload');
-      console.log(
-        state.entities.filter(({ id }) => {
-          return id !== payload;
-        }, 'entities.filter')
-      );
-      console.log(state.entities, 'state.entities');
+    [removeContact.fulfilled]: (state, { payload }) => {
       return {
         ...state,
         entities: state.entities.filter(({ id }) => {
-          return id !== payload;
+          return id !== payload.id;
         }),
         isLoading: false,
       };
@@ -56,7 +49,6 @@ export const contactsAsyncSlice = createSlice({
       return { ...state, isLoading: true };
     },
     [removeContact.rejected]: (state, { payload }) => {
-      console.log(payload);
       return { ...state, error: payload, isLoading: false };
     },
   },
