@@ -13,19 +13,30 @@ const initialState = {
   token: null,
   isLoggedIn: false,
   isLoading: false,
+  isLoadingCurrentUser: false,
   error: null,
+  status: 'idle',
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  // reducers: {},
   extraReducers: {
     [registerUser.fulfilled]: (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
       state.isLoggedIn = true;
+      state.error = null;
     },
+    [registerUser.pending]: state => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [registerUser.rejected]: (state, { payload }) => {
+      console.log(payload);
+      state.error = payload;
+    },
+
     [loginUser.fulfilled]: (state, { payload }) => {
       // console.log('state.user', state.user);
       // console.log('payload.user', payload.user);
@@ -34,38 +45,35 @@ export const authSlice = createSlice({
       state.token = payload.token;
       state.isLoggedIn = true;
       state.isLoading = false;
-      // state.error = null;
+      state.error = null;
     },
     [loginUser.pending]: (state, { payload }) => {
       state.isLoading = true;
-      // state.error = null;
+      state.error = null;
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.isLoggedIn = false;
-      // state.error = payload;
+      state.error = payload;
       state.isLoading = false;
     },
+
     [logoutUser.fulfilled]: state => {
       state.user = { name: null, email: null };
       state.isLoggedIn = false;
       state.token = null;
     },
+
     [getCurrentUser.fulfilled]: (state, { payload }) => {
-      // console.log(state.user);
-      // console.log(payload);
       state.user = payload;
       state.isLoggedIn = true;
-      state.isLoading = false;
+      state.isLoadingCurrentUser = false;
     },
     [getCurrentUser.pending]: state => {
-      state.isLoading = true;
+      state.isLoadingCurrentUser = true;
     },
-    // [getCurrentUser.rejected]: state => {
-    //   state.user = { name: null, email: null };
-    //   state.token = null;
-    //   state.isLoggedIn = false;
-    //   state.isLoading = false;
-    // },
+    [getCurrentUser.rejected]: state => {
+      state.isLoadingCurrentUser = false;
+    },
   },
 });
 

@@ -9,14 +9,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const registerUser = createAsyncThunk(
   'auth/register',
-  async userData => {
+  async (userData, { rejectWithValue }) => {
     try {
       const res = await register(userData);
-      console.log('res.token', res.token);
       token.set(res.token);
       return res;
     } catch (error) {
-      console.warn(error.message);
+      console.warn(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -27,23 +27,26 @@ export const loginUser = createAsyncThunk(
     try {
       const res = await login(userData);
       token.set(res.token);
-      console.log('res.token', res.token);
       return res;
     } catch (error) {
-      // console.warn(error.message);
+      console.warn(error);
       return rejectWithValue(error.message);
     }
   }
 );
 
-export const logoutUser = createAsyncThunk('auth/logout', async () => {
-  try {
-    await logout();
-    token.unset();
-  } catch (error) {
-    console.warn(error.message);
+export const logoutUser = createAsyncThunk(
+  'auth/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      await logout();
+      token.unset();
+    } catch (error) {
+      console.warn(error.message);
+      return rejectWithValue();
+    }
   }
-});
+);
 
 export const getCurrentUser = createAsyncThunk(
   'auth/refresh',
@@ -55,13 +58,13 @@ export const getCurrentUser = createAsyncThunk(
       return rejectWithValue();
     }
     token.set(persistedToken);
-    console.log('persistedToken', persistedToken);
 
     try {
       const { data } = await refresh();
       return data;
     } catch (error) {
-      console.warn(error.message);
+      console.warn(error);
+      return rejectWithValue();
     }
   }
 );
