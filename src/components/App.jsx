@@ -1,12 +1,12 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Section } from './ui/Section';
-import { ContactsFilter } from './ContactsFilter';
-import { ContactsForm } from './ContactsForm';
-import { ContactsList } from './ContactsList';
+// import { Section } from './ui/Section';
+// import { ContactsFilter } from './ContactsFilter';
+// import { ContactsForm } from './ContactsForm';
+// import { ContactsList } from './ContactsList';
 
-import { Wrapper, TitlePhonebook, TitleContacts } from './App.styled';
+// import { Wrapper, TitlePhonebook, TitleContacts } from './App.styled';
 import { ContactsPage, HomePage, LoginPage, RegisterPage } from '../pages';
 
 import { Routes, Route } from 'react-router-dom';
