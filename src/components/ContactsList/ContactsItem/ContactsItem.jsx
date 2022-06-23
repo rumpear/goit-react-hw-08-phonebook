@@ -7,8 +7,9 @@ import { removeContact } from '../../../redux/contacts/contactsOperations';
 import { getErrorValue } from '../../../redux/contacts/contactsSelectors';
 import { Loader } from '../../ui/Loader';
 import { Button, Item, Text } from './ContactsItem.styled';
+// import { useEffect } from 'react';
 
-export const ContactsItem = ({ id, name, number }) => {
+export const ContactsItem = ({ id, name, number, contacts }) => {
   const dispatch = useDispatch();
   const error = useSelector(getErrorValue);
   const [loading, setLoading] = useState(false);
@@ -21,19 +22,6 @@ export const ContactsItem = ({ id, name, number }) => {
       toast.error(error);
     }
   };
-
-  //* alternative
-  // const handleDeleteContact = currentId => {
-  //   if (id === currentId) setLoading(true);
-  //   dispatch(removeContact(currentId));
-  // };
-
-  // useEffect(() => {
-  //   if (error && loading) {
-  //     setLoading(false);
-  //     toast.error(error);
-  //   }
-  // }, [error, loading]);
 
   return (
     <Item>

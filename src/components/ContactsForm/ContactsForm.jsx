@@ -1,11 +1,11 @@
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import { toast } from 'react-toastify';
 import 'react-phone-input-2/lib/style.css';
 import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contacts/contactsOperations';
 import {
@@ -35,8 +35,8 @@ export const ContactsForm = () => {
   const error = useSelector(getErrorValue);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  console.log('isLoading', isLoading);
-  console.log('error', error);
+  // console.log('isLoading', isLoading);
+  // console.log('error', error);
 
   const checkDuplicateName = nameToAdd => {
     return contacts.find(
@@ -68,7 +68,7 @@ export const ContactsForm = () => {
       name,
       number,
     };
-    console.log(contact);
+    // console.log(contact);
     setIsLoading(true);
     try {
       await dispatch(addContact(contact)).unwrap();
@@ -111,8 +111,8 @@ export const ContactsForm = () => {
             onChange={setPhone}
             required={'required'}
           />
-          {/* <Button type="submit" disabled={error || isLoading}> */}
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={error || isLoading}>
+            {/* <Button type="submit" disabled={isLoading}> */}
             {isLoading ? (
               <>
                 <ClipLoader

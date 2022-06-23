@@ -17,9 +17,13 @@ export const ContactsList = () => {
   const filterValue = useSelector(getFilterValue);
   const dispatch = useDispatch();
 
+  console.log('contacts', contacts);
+
   useEffect(() => {
     setIsLoading(true);
   }, []);
+
+  useEffect(() => {}, [contacts]);
 
   useEffect(() => {
     (async function () {
@@ -33,6 +37,10 @@ export const ContactsList = () => {
     })();
   }, [dispatch]);
 
+  // useEffect(async () => {
+  //   await dispatch(fetchContacts());
+  // }, []);
+
   const filteredContacts = contacts.filter(({ name }) => {
     return name.toLowerCase().includes(filterValue.toLowerCase());
   });
@@ -44,7 +52,13 @@ export const ContactsList = () => {
       {filteredContacts.length ? (
         <List>
           {filteredContacts.map(({ id, name, number }) => (
-            <ContactsItem key={id} id={id} name={name} number={number} />
+            <ContactsItem
+              key={id}
+              id={id}
+              name={name}
+              number={number}
+              contacts={contacts}
+            />
           ))}
         </List>
       ) : (
