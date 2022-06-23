@@ -3,10 +3,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getIsLoggedIn } from '../redux/auth/authSelectors';
 import { loginUser } from '../redux/auth/authOperations';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -22,9 +21,6 @@ const loginSchema = yup.object().shape({
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getIsLoggedIn);
-  const error = useSelector(state => state.auth.error);
-  // const [loading, setLoading] = useState(false);
   const isLoading = useSelector(state => state.auth.isLoading);
 
   const {
@@ -37,14 +33,13 @@ export const LoginPage = () => {
   });
 
   const onSubmit = async data => {
-    // setLoading(true);
-    dispatch(loginUser(data));
+    try {
+      await dispatch(loginUser(data)).unwrap();
+    } catch (error) {
+      toast('Wrong email or password');
+    }
     reset();
   };
-
-  if (error) {
-    toast('You entered the wrong password or email');
-  }
 
   return (
     <>
@@ -64,6 +59,10 @@ export const LoginPage = () => {
 
         <button type="submit">{isLoading ? 'Loading' : 'Login'}</button>
       </form>
+      <>
+        <p>Don't have an account yet?</p>{' '}
+        <Link to={'registration'}>Sign up</Link>
+      </>
     </>
   );
 };

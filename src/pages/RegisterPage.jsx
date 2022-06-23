@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../redux/auth/authOperations';
-import { useSelector } from 'react-redux';
-import { getIsLoggedIn } from '../redux/auth/authSelectors';
+import { Link } from 'react-router-dom';
 
 const passwordRegex = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
 
@@ -35,7 +35,6 @@ const registrationSchema = yup.object().shape({
 
 export const RegisterPage = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getIsLoggedIn);
 
   const {
     register,
@@ -48,7 +47,12 @@ export const RegisterPage = () => {
 
   const onSubmit = async data => {
     const { name, email, password } = data;
-    dispatch(registerUser({ name, email, password }));
+    try {
+      await dispatch(registerUser({ name, email, password })).unwrap();
+    } catch (error) {
+      console.log(error);
+      toast(`Email ${email} has already been taken`);
+    }
     reset();
   };
 
@@ -80,6 +84,9 @@ export const RegisterPage = () => {
 
         <button type="submit">Registration</button>
       </form>
+      <>
+        <p>Already signed up?</p> <Link to="/">Go to login</Link>
+      </>
     </>
   );
 };
