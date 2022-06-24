@@ -1,23 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { loginUser } from '../redux/auth/authOperations';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import schema from '../utils/schemes';
 
-const loginSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Please enter a valid email')
-    .required('Please enter your email'),
-  password: yup
-    .string()
-    .min(7, 'The password must not be less than 7 characters')
-    .max(32, 'The password must not be greater than 32 characters')
-    .required('Please enter your password'),
-});
+import * as React from 'react';
+import Button from '@mui/material/Button';
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -29,7 +20,7 @@ export const LoginPage = () => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(schema.login),
   });
 
   const onSubmit = async data => {
@@ -43,7 +34,9 @@ export const LoginPage = () => {
 
   return (
     <>
+      <br></br>
       <h1>Login</h1>
+      <br></br>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input placeholder="Email" {...register('email')} />
         <p>{errors.email?.message}</p>
@@ -57,9 +50,10 @@ export const LoginPage = () => {
 
         <br></br>
 
-        <button type="submit">{isLoading ? 'Loading' : 'Login'}</button>
+        <Button type="submit">{isLoading ? 'Loading' : 'Login'}</Button>
       </form>
       <>
+        <br></br>
         <p>Don't have an account yet?</p>{' '}
         <Link to={'registration'}>Sign up</Link>
       </>
