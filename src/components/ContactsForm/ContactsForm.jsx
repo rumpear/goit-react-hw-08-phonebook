@@ -1,11 +1,8 @@
 import { Formik, ErrorMessage } from 'formik';
-import * as yup from 'yup';
-// import { nanoid } from 'nanoid';
 import { toast } from 'react-toastify';
 import 'react-phone-input-2/lib/style.css';
 import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
-// import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contacts/contactsOperations';
 import {
@@ -20,23 +17,14 @@ import {
   Error,
   PhoneField,
 } from './ContactsForm.styled';
-
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(2)
-    .max(32)
-    .required('Please enter the name of your contact'),
-});
+import schema from '../../utils/schemes';
 
 export const ContactsForm = () => {
   const [phone, setPhone] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const contacts = useSelector(getContactsValue);
   const error = useSelector(getErrorValue);
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  // console.log('isLoading', isLoading);
-  // console.log('error', error);
 
   const checkDuplicateName = nameToAdd => {
     return contacts.find(
@@ -64,13 +52,12 @@ export const ContactsForm = () => {
 
   const createContact = async (name, number) => {
     const contact = {
-      // id: nanoid(),
       name,
       number,
     };
-    // console.log(contact);
-    setIsLoading(true);
+
     try {
+      setIsLoading(true);
       await dispatch(addContact(contact)).unwrap();
     } catch (error) {
       toast('Something went wrong. Please reload the page');
@@ -79,17 +66,13 @@ export const ContactsForm = () => {
     }
   };
 
-  // useEffect(() => {
-  //   setIsLoading(false);
-  // }, [contacts]);
-
   return (
     <>
       <Formik
         initialValues={{
           name: '',
         }}
-        validationSchema={schema}
+        validationSchema={schema.addContact}
         onSubmit={handleSubmit}
       >
         <FormBody>
@@ -112,7 +95,6 @@ export const ContactsForm = () => {
             required={'required'}
           />
           <Button type="submit" disabled={error || isLoading}>
-            {/* <Button type="submit" disabled={isLoading}> */}
             {isLoading ? (
               <>
                 <ClipLoader
