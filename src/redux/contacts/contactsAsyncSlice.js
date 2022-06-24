@@ -1,9 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addContact, fetchContacts, removeContact } from './contactsOperations';
 
+const initialState = {
+  entities: [],
+  filter: '',
+  isLoading: false,
+  error: null,
+};
+
 export const contactsAsyncSlice = createSlice({
   name: 'contacts',
-  initialState: { entities: [], filter: '', isLoading: false, error: null },
+  initialState,
   reducers: {
     updateFilter(state, { payload }) {
       return { ...state, filter: payload };
@@ -11,45 +18,41 @@ export const contactsAsyncSlice = createSlice({
   },
   extraReducers: {
     [fetchContacts.fulfilled]: (state, { payload }) => {
-      return {
-        ...state,
-        entities: [...payload],
-        isLoading: false,
-      };
+      state.entities = [...payload];
+      state.isLoading = false;
     },
     [fetchContacts.pending]: state => {
-      return { ...state, isLoading: true };
+      state.isLoading = true;
     },
     [fetchContacts.rejected]: (state, { payload }) => {
-      return { ...state, error: payload, isLoading: false };
+      state.error = payload;
+      state.isLoading = false;
     },
+
     [addContact.fulfilled]: (state, { payload }) => {
-      return {
-        ...state,
-        entities: [...state.entities, payload],
-        isLoading: false,
-      };
+      state.entities = [...state.entities, payload];
+      state.isLoading = false;
     },
     [addContact.pending]: state => {
-      return { ...state, isLoading: true };
+      state.isLoading = true;
     },
     [addContact.rejected]: (state, { payload }) => {
-      return { ...state, error: payload, isLoading: false };
+      state.error = payload;
+      state.isLoading = false;
     },
+
     [removeContact.fulfilled]: (state, { payload }) => {
-      return {
-        ...state,
-        entities: state.entities.filter(({ id }) => {
-          return id !== payload.id;
-        }),
-        isLoading: false,
-      };
+      state.entities = state.entities.filter(({ id }) => {
+        return id !== payload;
+      });
+      state.isLoading = false;
     },
     [removeContact.pending]: state => {
-      return { ...state, isLoading: true };
+      state.isLoading = true;
     },
     [removeContact.rejected]: (state, { payload }) => {
-      return { ...state, error: payload, isLoading: false };
+      state.error = payload;
+      state.isLoading = false;
     },
   },
 });

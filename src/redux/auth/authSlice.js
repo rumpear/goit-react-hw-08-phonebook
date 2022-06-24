@@ -33,45 +33,46 @@ export const authSlice = createSlice({
       state.error = null;
     },
     [registerUser.rejected]: (state, { payload }) => {
-      console.log(payload);
       state.error = payload;
+      state.isLoading = false;
     },
 
     [loginUser.fulfilled]: (state, { payload }) => {
-      // console.log('state.user', state.user);
-      // console.log('payload.user', payload.user);
-      // console.log('payload', payload);
       state.user = payload.user;
       state.token = payload.token;
       state.isLoggedIn = true;
       state.isLoading = false;
       state.error = null;
     },
-    [loginUser.pending]: (state, { payload }) => {
+    [loginUser.pending]: state => {
       state.isLoading = true;
       state.error = null;
     },
     [loginUser.rejected]: (state, { payload }) => {
-      state.isLoggedIn = false;
       state.error = payload;
       state.isLoading = false;
+      state.isLoggedIn = false;
     },
 
     [logoutUser.fulfilled]: state => {
       state.user = { name: null, email: null };
-      state.isLoggedIn = false;
       state.token = null;
+      state.isLoggedIn = false;
+      state.isLoading = false;
     },
 
     [getCurrentUser.fulfilled]: (state, { payload }) => {
       state.user = payload;
       state.isLoggedIn = true;
       state.isLoadingCurrentUser = false;
+      state.error = null;
     },
     [getCurrentUser.pending]: state => {
       state.isLoadingCurrentUser = true;
+      state.error = null;
     },
-    [getCurrentUser.rejected]: state => {
+    [getCurrentUser.rejected]: (state, { payload }) => {
+      state.error = payload;
       state.isLoadingCurrentUser = false;
     },
   },
