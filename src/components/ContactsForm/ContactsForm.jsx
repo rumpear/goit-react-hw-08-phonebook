@@ -1,4 +1,10 @@
-import { Formik, ErrorMessage } from 'formik';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
+import 'react-phone-number-input/style.css';
+
+import { IMaskInput } from 'react-imask';
+
 import { toast } from 'react-toastify';
 import 'react-phone-input-2/lib/style.css';
 import { ClipLoader } from 'react-spinners';
@@ -17,14 +23,30 @@ import {
   Error,
   PhoneField,
 } from './ContactsForm.styled';
+import {
+  // Button,
+  TextField,
+  Box,
+} from '@mui/material';
 import schema from '../../utils/schemes';
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import styled from 'styled-components';
 
 export const ContactsForm = () => {
-  const [phone, setPhone] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const contacts = useSelector(getContactsValue);
-  const error = useSelector(getErrorValue);
+  // const error = useSelector(getErrorValue);
   const dispatch = useDispatch();
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema.addContact),
+  });
 
   const checkDuplicateName = nameToAdd => {
     return contacts.find(
@@ -32,22 +54,19 @@ export const ContactsForm = () => {
     );
   };
 
-  const handleSubmit = ({ name }, { resetForm }) => {
+  const onSubmit = ({ name, phone }) => {
     if (checkDuplicateName(name)) {
-      toast.warn(
+      return toast.warn(
         'You are trying to enter a name that is already on the phonebook'
       );
-      return;
     }
 
     if (!phone) {
-      toast.warn('Please enter the phone number of your contact');
-      return;
+      return toast.warn('Please enter the phone number of your contact');
     }
 
     createContact(name, phone);
-    resetForm();
-    setPhone('');
+    reset();
   };
 
   const createContact = async (name, number) => {
@@ -68,50 +87,88 @@ export const ContactsForm = () => {
 
   return (
     <>
-      <Formik
-        initialValues={{
-          name: '',
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          '& .MuiTextField-root': { m: 1, width: '25ch' },
+          // '& > button': { m: 1 },
         }}
-        validationSchema={schema.addContact}
-        onSubmit={handleSubmit}
       >
-        <FormBody>
-          <Title>Name</Title>
-          <Input
-            autoFocus={false}
-            placeholder={'Enter the name of your contact'}
-            type="text"
-            name="name"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          />
-          <ErrorMessage name="name" component={Error} />
-          <Title>Phone</Title>
-          <PhoneField
-            country={'ua'}
-            placeholder={'+380 (63) 000 00 00'}
-            autoFocus={false}
-            value={phone}
-            onChange={setPhone}
-            required={'required'}
-          />
-          <Button type="submit" disabled={error || isLoading}>
-            {isLoading ? (
-              <>
-                <ClipLoader
-                  size={20}
-                  css={`
-                    margin-right: 10px;
-                    border-color: #82878a;
-                  `}
-                />{' '}
-                Add contact
-              </>
-            ) : (
-              'Add contact'
-            )}
-          </Button>
-        </FormBody>
-      </Formik>
+        <TextField
+          type="text"
+          label="Name"
+          // margin="normal"
+          error={!!errors.name}
+          helperText={errors.name?.message}
+          placeholder="Enter the name of your contact"
+          {...register('name')}
+        />
+
+        <PhoneInput
+          defaultCountry="UA"
+          name="phone"
+          control={control}
+          // country={'ua'}
+          placeholder={'+380 (63) 000 00 00'}
+          component={TextField}
+          rules={{ required: true, validate: isPossiblePhoneNumber }}
+        />
+
+        {/* <PhoneField
+          country={'ua'}
+          placeholder={'+380 (63) 000 00 00'}
+          autoFocus={false}
+          control={control}
+          required={'required'}
+        /> */}
+        <Button
+          type="submit"
+          // onClick={() => {
+          //   console.log('CLICK');
+          // }}
+          // disabled={error || isLoading}
+        >
+          {isLoading ? (
+            <>
+              <ClipLoader
+                size={20}
+                css={`
+                  margin-right: 10px;
+                  border-color: #82878a;
+                `}
+              />
+              Add contact
+            </>
+          ) : (
+            'Add contact'
+          )}
+        </Button>
+        {/* <Button type="submit">{isLoading ? 'Loading' : 'Login'}</Button> */}
+        {/* <LoadingButton
+          onClick={handleSubmit(onSubmit)}
+          endIcon={<SendIcon />}
+          loading={isLoading}
+          loadingPosition="end"
+          variant="contained"
+        >
+          Send
+        </LoadingButton> */}
+      </Box>
     </>
   );
 };
+
+const PhoneInput = styled(PhoneInputWithCountry)`
+  /* width: 400px; */
+
+  & .PhoneInputInput {
+    height: 50px;
+    ::placeholder {
+      color: black;
+    }
+  }
+`;
