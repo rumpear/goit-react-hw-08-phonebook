@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import schema from '../../utils/schemes';
 
-import * as React from 'react';
 import { Button, TextField, Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Input, Form } from './LoginPage.styled';

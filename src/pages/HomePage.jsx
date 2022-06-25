@@ -9,7 +9,8 @@ export const HomePage = () => {
 
   return (
     <Section>
-      <h1>Hello</h1>
+      <h1>Contacts Book</h1>
+      <p>Enter credentials to access your account</p>
       {isLoggedIn && <UserMenu />}
 
       <Outlet />
