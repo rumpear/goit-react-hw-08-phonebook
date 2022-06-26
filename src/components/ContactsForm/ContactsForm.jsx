@@ -1,41 +1,32 @@
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
-import 'react-phone-number-input/style.css';
-
 import { IMaskInput } from 'react-imask';
-
 import { toast } from 'react-toastify';
-import 'react-phone-input-2/lib/style.css';
 import { ClipLoader } from 'react-spinners';
-import { useState } from 'react';
+
+import { forwardRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contacts/contactsOperations';
 import {
   getContactsValue,
   getErrorValue,
 } from '../../redux/contacts/contactsSelectors';
-import {
-  FormBody,
-  Title,
-  Input,
-  Button,
-  Error,
-  PhoneField,
-} from './ContactsForm.styled';
+import { Button } from './ContactsForm.styled';
 import {
   // Button,
   TextField,
   Box,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  FormHelperText,
 } from '@mui/material';
 import schema from '../../utils/schemes';
-import { isPossiblePhoneNumber } from 'react-phone-number-input';
-import styled from 'styled-components';
 
 export const ContactsForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const contacts = useSelector(getContactsValue);
-  // const error = useSelector(getErrorValue);
+  const error = useSelector(getErrorValue);
   const dispatch = useDispatch();
 
   const {
@@ -55,6 +46,7 @@ export const ContactsForm = () => {
   };
 
   const onSubmit = ({ name, phone }) => {
+    console.log(phone.length);
     if (checkDuplicateName(name)) {
       return toast.warn(
         'You are trying to enter a name that is already on the phonebook'
@@ -85,6 +77,22 @@ export const ContactsForm = () => {
     }
   };
 
+  const TextMaskCustom = forwardRef(function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="(#00) 00 00 000"
+        definitions={{
+          '#': /[0-9]/,
+        }}
+        inputRef={ref}
+        onAccept={value => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  });
+
   return (
     <>
       <Box
@@ -94,7 +102,7 @@ export const ContactsForm = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
+          '& .MuiFormControl-root': { m: 1, width: '100%' },
           // '& > button': { m: 1 },
         }}
       >
@@ -107,31 +115,27 @@ export const ContactsForm = () => {
           placeholder="Enter the name of your contact"
           {...register('name')}
         />
-
-        <PhoneInput
-          defaultCountry="UA"
+        <Controller
           name="phone"
           control={control}
-          // country={'ua'}
-          placeholder={'+380 (63) 000 00 00'}
-          component={TextField}
-          rules={{ required: true, validate: isPossiblePhoneNumber }}
+          render={({ field }) => (
+            <FormControl error={!!errors.phone}>
+              <InputLabel htmlFor="phone-input">Phone</InputLabel>
+              <OutlinedInput
+                id="phone-input"
+                name="phone"
+                label="phone"
+                placeholder="(063) 00 00 000"
+                inputComponent={TextMaskCustom}
+                {...field}
+              />
+              <FormHelperText id="phone-input">
+                {errors.phone?.message}
+              </FormHelperText>
+            </FormControl>
+          )}
         />
-
-        {/* <PhoneField
-          country={'ua'}
-          placeholder={'+380 (63) 000 00 00'}
-          autoFocus={false}
-          control={control}
-          required={'required'}
-        /> */}
-        <Button
-          type="submit"
-          // onClick={() => {
-          //   console.log('CLICK');
-          // }}
-          // disabled={error || isLoading}
-        >
+        <Button type="submit" disabled={error || isLoading}>
           {isLoading ? (
             <>
               <ClipLoader
@@ -147,7 +151,6 @@ export const ContactsForm = () => {
             'Add contact'
           )}
         </Button>
-        {/* <Button type="submit">{isLoading ? 'Loading' : 'Login'}</Button> */}
         {/* <LoadingButton
           onClick={handleSubmit(onSubmit)}
           endIcon={<SendIcon />}
@@ -161,14 +164,3 @@ export const ContactsForm = () => {
     </>
   );
 };
-
-const PhoneInput = styled(PhoneInputWithCountry)`
-  /* width: 400px; */
-
-  & .PhoneInputInput {
-    height: 50px;
-    ::placeholder {
-      color: black;
-    }
-  }
-`;

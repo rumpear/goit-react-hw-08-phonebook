@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Field, Form } from 'formik';
-import PhoneInput from 'react-phone-input-2';
+// import PhoneInput from 'react-phone-input-2';
+// import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
 
 export const FormBody = styled(Form)`
   width: 300px;
@@ -12,14 +13,6 @@ export const Title = styled.p`
 export const Input = styled(Field)`
   margin-bottom: 10px;
   padding: 10px;
-  font-size: 17px;
-  border: 1px solid #eeeeee;
-  width: 100%;
-`;
-
-export const PhoneField = styled(PhoneInput)`
-  margin-bottom: 10px;
-  /* padding: 10px; */
   font-size: 17px;
   border: 1px solid #eeeeee;
   width: 100%;
@@ -65,3 +58,22 @@ export const Error = styled.div`
   margin-bottom: 10px;
   color: red;
 `;
+
+// export const PhoneField = styled(PhoneInput)`
+//   margin-bottom: 10px;
+//   /* padding: 10px; */
+//   font-size: 17px;
+//   border: 1px solid #eeeeee;
+//   width: 100%;
+// `;
+
+// export const PhoneInput = styled(PhoneInputWithCountry)`
+//   /* width: 400px; */
+
+//   & .PhoneInputInput {
+//     height: 50px;
+//     ::placeholder {
+//       color: black;
+//     }
+//   }
+// `;
