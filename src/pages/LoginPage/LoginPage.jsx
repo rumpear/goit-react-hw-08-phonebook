@@ -38,6 +38,7 @@ export const LoginPage = () => {
     <>
       <br></br>
       <h1>Login</h1>
+      <p>Enter credentials to access your account</p>
       <br></br>
       <Box
         component="form"
