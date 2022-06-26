@@ -42,9 +42,13 @@ const signup = yup.object().shape({
 const addContact = yup.object().shape({
   name: yup
     .string()
-    .min(2, 'The name must not be less than 7 characters')
-    .max(32, 'The name must not be greater than 32 characters')
+    .min(2, 'The name must not be less than 2 characters')
+    .max(22, 'The name must not be greater than 22 characters')
     .required('Please enter the name of your contact'),
+  phone: yup
+    .string()
+    .length(15, 'Please enter the valid phone number')
+    .required('Please enter the phone number of your contact'),
 });
 
 const schema = { login, signup, addContact };
