@@ -17,13 +17,9 @@ export const ContactsList = () => {
   const filterValue = useSelector(getFilterValue);
   const dispatch = useDispatch();
 
-  console.log('contacts ContactsList', contacts);
-
   useEffect(() => {
     setIsLoading(true);
   }, []);
-
-  // useEffect(() => {}, [contacts]);
 
   useEffect(() => {
     (async function () {
@@ -58,7 +54,11 @@ export const ContactsList = () => {
           ))}
         </List>
       ) : (
-        <Text>Nothing to show</Text>
+        <>
+          <Text>
+            Nothing to show...<br></br>You can add your first contact right now
+          </Text>
+        </>
       )}
     </div>
   );
