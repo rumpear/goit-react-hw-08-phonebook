@@ -4,13 +4,11 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { loginUser } from '../../redux/auth/authOperations';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { TextField, Box } from '@mui/material';
+import { LoadingButton } from '../../components/ui/LoadingButton';
 import schema from '../../utils/schemes';
 
-import { Button, TextField, Box } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Input, Form } from './LoginPage.styled';
-import SendIcon from '@mui/icons-material/Send';
+import { Text, SignUpLink } from './LoginPage.styled';
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -36,22 +34,18 @@ export const LoginPage = () => {
 
   return (
     <>
-      <br></br>
-      <h1>Login</h1>
-      <p>Enter credentials to access your account</p>
-      <br></br>
+      <Text>Enter credentials to access your account</Text>
       <Box
         component="form"
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-          // '& > button': { m: 1 },
+          '& .MuiTextField-root': { m: 1, width: '100%' },
         }}
       >
-        <Input
+        <TextField
           label="Email"
           error={!!errors.email}
           helperText={errors.email?.message}
@@ -61,29 +55,15 @@ export const LoginPage = () => {
         <TextField
           // type="password"
           label="Password"
-          // margin="normal"
           error={!!errors.password}
           helperText={errors.password?.message}
           placeholder="Please enter your password"
           {...register('password')}
         />
-        {/* <Button type="submit">{isLoading ? 'Loading' : 'Login'}</Button> */}
-        <LoadingButton
-          onClick={handleSubmit(onSubmit)}
-          endIcon={<SendIcon />}
-          loading={isLoading}
-          loadingPosition="end"
-          variant="contained"
-        >
-          Send
-          {/* {isLoading ? 'Loading' : 'Login'} */}
-        </LoadingButton>
+        <LoadingButton text="LOGIN" isLoading={isLoading} />
       </Box>
-      <>
-        <br></br>
-        <p>Don't have an account yet?</p>{' '}
-        <Link to={'registration'}>Sign up</Link>
-      </>
+      <Text>Don't have an account yet?</Text>
+      <SignUpLink to={'registration'}>Sign up</SignUpLink>
     </>
   );
 };

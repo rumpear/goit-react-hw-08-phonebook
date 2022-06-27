@@ -1,55 +1,26 @@
-import { Box, TextField } from '@mui/material';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const Input = styled(TextField)`
-  /* & .MuiTextField-root {
-    margin-bottom: 20px;
-    margin-top: 40px;
-    width: 500px;
-    color: red;
-    background-color: aliceblue;
-  }
-  & .MuiTextField-root {
-    margin-bottom: 20px;
-    margin-top: 40px;
-    width: 500px;
-    color: red;
-    background-color: aliceblue;
-  } */
+export const Text = styled.p`
+  font-size: 15px;
+  margin-bottom: 5px;
 
-  /* & .MuiInputBase-root {
-    margin-bottom: 20px;
-    width: 500px;
-    color: red;
-    background-color: aliceblue;
+  @media (min-width: 768px) {
+    font-size: 19px;
   }
-
-  & .MuiOutlinedInput-input {
-    margin-top: 200px;
-  }
-
-  & .MuiInputLabel-root {
-    color: wheat;
-  }
-  */
-  /* & .MuiFormLabel-root {
-    color: wheat;
-  } */
 `;
 
-// export const Input = styled(TextField)`
-//   /* display: block;
-//   margin-bottom: 50px;
-//   color: red;
-//   background-color: aliceblue;
-//   width: 600px;
-//   margin: 60px; */
-// `;
+export const SignUpLink = styled(Link)`
+  font-size: 15px;
+  color: #1976d2;
 
-export const Form = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
-  margin: 100px auto 0px;
+  transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  :hover {
+    color: #1565c0;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 19px;
+  }
 `;
