@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
 `;
 
 export const AddContact = styled.div`
-  max-width: 315px;
+  width: 310px;
   height: 100%;
 
   margin-bottom: 20px;
@@ -41,7 +41,7 @@ export const AddContact = styled.div`
 
 export const ContactsSection = styled.div`
   height: 100%;
-  width: 315px;
+  width: 310px;
 
   padding: 20px;
 

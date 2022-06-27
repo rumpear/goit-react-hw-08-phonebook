@@ -7,19 +7,6 @@ import { removeContact } from '../../../redux/contacts/contactsOperations';
 import { getErrorValue } from '../../../redux/contacts/contactsSelectors';
 import { Loader } from '../../ui/Loader';
 import { Button, Item, Name, Phone } from './ContactsItem.styled';
-import {
-  Card,
-  CardActions,
-  CardContent,
-  IconButton,
-  Typography,
-} from '@mui/material';
-// import { useEffect } from 'react';
-
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export const ContactsItem = ({ id, name, number }) => {
   const dispatch = useDispatch();
@@ -34,8 +21,6 @@ export const ContactsItem = ({ id, name, number }) => {
       toast.error(error);
     }
   };
-
-  console.log('34532452345324523453423'.length, 'length');
 
   return (
     <Item>
@@ -53,40 +38,6 @@ export const ContactsItem = ({ id, name, number }) => {
         {loading ? <Loader size={15} /> : <VscClose size={20} />}
       </Button>
     </Item>
-  );
-
-  return (
-    <Card
-      sx={{
-        maxWidth: 345,
-        mb: 1.5,
-        '&:last-child': {
-          mb: 0,
-        },
-      }}
-    >
-      <CardContent
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          '&:last-child': { p: '16px' },
-        }}
-      >
-        <div>
-          <Typography sx={{ fontSize: 18 }} color="text.primary" gutterBottom>
-            {name}
-          </Typography>
-          <Typography sx={{ mb: 0 }} color="text.secondary">
-            {number}
-          </Typography>
-        </div>
-        <CardActions disableSpacing sx={{ p: 0 }}>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
-      </CardContent>
-    </Card>
   );
 };
 
