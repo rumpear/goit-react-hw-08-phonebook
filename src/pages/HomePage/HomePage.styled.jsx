@@ -10,15 +10,6 @@ export const Title = styled.h1`
   }
 `;
 
-export const Wrapper = styled.div`
-  background-color: #cef3ff;
-  /* width: 1000px;
-  height: 500px; */
-  display: block;
-  width: auto;
-  height: auto;
-`;
-
 export const Container = styled.div`
   margin-left: auto;
   margin-right: auto;
@@ -31,11 +22,4 @@ export const Container = styled.div`
   @media (min-width: 768px) {
     padding: 100px 15px;
   }
-
-  /* @media (min-width: 769px) {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  } */
 `;

@@ -7,12 +7,13 @@ import { toast } from 'react-toastify';
 import { TextField, Box } from '@mui/material';
 import { LoadingButton } from '../../components/ui/LoadingButton';
 import schema from '../../utils/schemes';
+import { getAuthIsLoading } from '../../redux/auth/authSelectors';
 
 import { Text, SignUpLink } from './LoginPage.styled';
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(state => state.auth.isLoading);
+  const isLoading = useSelector(getAuthIsLoading);
 
   const {
     register,
@@ -42,7 +43,10 @@ export const LoginPage = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          '& .MuiTextField-root': { m: 1, width: '100%' },
+          '& .MuiTextField-root': {
+            m: 1,
+            width: '100%',
+          },
         }}
       >
         <TextField
@@ -53,7 +57,7 @@ export const LoginPage = () => {
           {...register('email')}
         />
         <TextField
-          // type="password"
+          type="password"
           label="Password"
           error={!!errors.password}
           helperText={errors.password?.message}
@@ -63,7 +67,7 @@ export const LoginPage = () => {
         <LoadingButton text="LOGIN" isLoading={isLoading} />
       </Box>
       <Text>Don't have an account yet?</Text>
-      <SignUpLink to={'registration'}>Sign up</SignUpLink>
+      <SignUpLink to={'signup'}>Sign up</SignUpLink>
     </>
   );
 };

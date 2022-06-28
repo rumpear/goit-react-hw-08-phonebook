@@ -8,10 +8,11 @@ import { LoginLink, Text, Title } from './RegisterPage.styled';
 import { Box, TextField } from '@mui/material';
 import { LoadingButton } from '../../components/ui/LoadingButton';
 import { useSelector } from 'react-redux';
+import { getAuthIsLoading } from '../../redux/auth/authSelectors';
 
 export const RegisterPage = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(state => state.auth.isLoading);
+  const isLoading = useSelector(getAuthIsLoading);
 
   const {
     register,
