@@ -29,6 +29,7 @@ export const LoginPage = () => {
       await dispatch(loginUser(data)).unwrap();
     } catch (error) {
       toast('Wrong email or password');
+      return;
     }
     reset();
   };
