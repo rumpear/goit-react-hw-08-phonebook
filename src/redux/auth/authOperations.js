@@ -4,7 +4,7 @@ import {
   logout,
   refresh,
   token,
-} from '../../services/authApi';
+} from '../../services/authAPI';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const registerUser = createAsyncThunk(

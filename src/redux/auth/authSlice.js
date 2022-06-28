@@ -15,7 +15,6 @@ const initialState = {
   isLoading: false,
   isLoadingCurrentUser: false,
   error: null,
-  status: 'idle',
 };
 
 export const authSlice = createSlice({
