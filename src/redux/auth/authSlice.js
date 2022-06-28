@@ -25,6 +25,7 @@ export const authSlice = createSlice({
       state.user = payload.user;
       state.token = payload.token;
       state.isLoggedIn = true;
+      state.isLoading = false;
       state.error = null;
     },
     [registerUser.pending]: state => {
@@ -59,7 +60,10 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
       state.isLoading = false;
     },
-
+    [logoutUser.pending]: state => {
+      state.isLoading = true;
+      state.error = null;
+    },
     [getCurrentUser.fulfilled]: (state, { payload }) => {
       state.user = payload;
       state.isLoggedIn = true;
