@@ -25,6 +25,7 @@ export const ContactsForm = () => {
   const contacts = useSelector(getContactsValue);
   const error = useSelector(getErrorValue);
   const dispatch = useDispatch();
+  console.log('error', error);
 
   const {
     control,

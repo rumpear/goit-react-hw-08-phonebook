@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { fetchContacts } from '../../redux/contacts/contactsOperations';
 import {
@@ -7,9 +8,8 @@ import {
   getFilterValue,
 } from '../../redux/contacts/contactsSelectors';
 import { ContactsItem } from './ContactsItem';
-import { Loader } from '../ui/Loader';
+import { SkeletonList } from '../ui/SkeletonList/';
 import { List, Text } from './ContactsList.styled';
-import { useState } from 'react';
 
 export const ContactsList = () => {
   const contacts = useSelector(getContactsValue);
@@ -37,7 +37,7 @@ export const ContactsList = () => {
     return name.toLowerCase().includes(filterValue.toLowerCase());
   });
 
-  if (isLoading) return <Loader size={50} />;
+  if (isLoading) return <SkeletonList />;
 
   return (
     <div>

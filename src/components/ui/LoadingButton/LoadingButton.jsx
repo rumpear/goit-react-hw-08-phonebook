@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { ClipLoader } from 'react-spinners';
 import { Button } from './LoadingButton.styled';
 
@@ -24,4 +25,10 @@ export const LoadingButton = ({
       )}
     </Button>
   );
+};
+
+LoadingButton.propTypes = {
+  error: PropTypes.string,
+  isLoading: PropTypes.bool,
+  text: PropTypes.string,
 };
