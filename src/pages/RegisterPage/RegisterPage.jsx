@@ -29,6 +29,7 @@ export const RegisterPage = () => {
       await dispatch(registerUser({ name, email, password })).unwrap();
     } catch (error) {
       toast(`Email ${email} has already been taken`);
+      return;
     }
     reset();
   };
@@ -62,7 +63,7 @@ export const RegisterPage = () => {
           {...register('email')}
         />
         <TextField
-          // type="password"
+          type="password"
           label="Password"
           error={!!errors.password}
           helperText={errors.password?.message}
@@ -70,7 +71,7 @@ export const RegisterPage = () => {
           {...register('password')}
         />
         <TextField
-          // type="password"
+          type="password"
           label="Confirm password"
           error={!!errors.passwordConfirm}
           helperText={errors.passwordConfirm?.message}

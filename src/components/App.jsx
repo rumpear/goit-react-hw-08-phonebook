@@ -8,7 +8,7 @@ import { getCurrentUser } from '../redux/auth/authOperations';
 import { PublicRoute } from './Routes';
 import { PrivateRoute } from './Routes/PrivateRoute';
 import { useSelector } from 'react-redux';
-// import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 import { lazy, Suspense } from 'react';
 
 const HomePage = lazy(() => import('../pages/HomePage/'));
@@ -28,15 +28,20 @@ export const App = () => {
     state => state.auth.isLoadingCurrentUser
   );
 
-  if (isLoadingCurrentUser) return <h1>LOADING CurrentUser</h1>;
-  // if (isLoadingCurrentUser) return <LinearProgress />;
+  if (isLoadingCurrentUser) return <LinearProgress />;
 
   return (
     <>
-      {/* <Suspense fallback={<LinearProgress />}> */}
-      <Suspense fallback={<h1>LOADING fallback</h1>}>
+      <Suspense fallback={<LinearProgress />}>
         <Routes>
-          <Route path="/" element={<HomePage />}>
+          <Route
+            path="/"
+            element={
+              <PublicRoute redirectTo="/contacts">
+                <HomePage />
+              </PublicRoute>
+            }
+          >
             <Route
               index
               element={
