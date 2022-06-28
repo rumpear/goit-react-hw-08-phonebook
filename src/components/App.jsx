@@ -8,13 +8,14 @@ import { getCurrentUser } from '../redux/auth/authOperations';
 import { PublicRoute } from './Routes';
 import { PrivateRoute } from './Routes/PrivateRoute';
 import { useSelector } from 'react-redux';
-import LinearProgress from '@mui/material/LinearProgress';
+// import LinearProgress from '@mui/material/LinearProgress';
 import { lazy, Suspense } from 'react';
 
 const HomePage = lazy(() => import('../pages/HomePage/'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/RegisterPage'));
 const ContactsPage = lazy(() => import('../pages/ContactsPage'));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage/'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -27,11 +28,13 @@ export const App = () => {
     state => state.auth.isLoadingCurrentUser
   );
 
-  if (isLoadingCurrentUser) return <LinearProgress />;
+  if (isLoadingCurrentUser) return <h1>LOADING CurrentUser</h1>;
+  // if (isLoadingCurrentUser) return <LinearProgress />;
 
   return (
     <>
-      <Suspense fallback={<LinearProgress />}>
+      {/* <Suspense fallback={<LinearProgress />}> */}
+      <Suspense fallback={<h1>LOADING fallback</h1>}>
         <Routes>
           <Route path="/" element={<HomePage />}>
             <Route
@@ -43,7 +46,7 @@ export const App = () => {
               }
             />
             <Route
-              path="registration"
+              path="signup"
               element={
                 <PublicRoute redirectTo="/contacts">
                   <RegisterPage />
@@ -59,7 +62,7 @@ export const App = () => {
               </PrivateRoute>
             }
           />
-          <Route path="*" element={<h1>Not found</h1>} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
 
         <ToastContainer
